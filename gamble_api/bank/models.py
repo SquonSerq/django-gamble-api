@@ -3,7 +3,9 @@ from players.models import Player
 
 
 class Bank(models.Model):
-    owner = models.OneToOneField('players.Player', models.CASCADE, verbose_name="Игрок")
+    owner = models.OneToOneField('players.Player',
+                                 models.CASCADE,
+                                 verbose_name="Игрок")
     gold_stored = models.IntegerField(default=0, verbose_name="Депозит")
 
     def __str__(self):
@@ -19,4 +21,7 @@ def create_bank(sender, instance, created, **kwargs):
         Bank.objects.create(owner=instance)
 
 
-models.signals.post_save.connect(receiver=create_bank, sender=Player, weak=False, dispatch_uid='models.create_bank')
+models.signals.post_save.connect(receiver=create_bank,
+                                 sender=Player,
+                                 weak=False,
+                                 dispatch_uid='models.create_bank')

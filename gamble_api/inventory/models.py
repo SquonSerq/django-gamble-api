@@ -4,7 +4,8 @@ from players.models import Player
 
 class Inventory(models.Model):
     owner = models.OneToOneField(Player, models.CASCADE)
-    slots_amount = models.IntegerField(verbose_name="Количество слотов", default=25)
+    slots_amount = models.IntegerField(verbose_name="Количество слотов",
+                                       default=25)
 
     def __str__(self):
         return f'Инвентарь пользователя: {self.owner.bot_id}'
@@ -19,4 +20,7 @@ def create_inventory(sender, instance, created, **kwargs):
         Inventory.objects.create(owner=instance)
 
 
-models.signals.post_save.connect(receiver=create_inventory, sender=Player, weak=False, dispatch_uid='models.create_inventory')
+models.signals.post_save.connect(receiver=create_inventory,
+                                 sender=Player,
+                                 weak=False,
+                                 dispatch_uid='models.create_inventory')
